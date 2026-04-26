@@ -1,9 +1,6 @@
 import tkinter as tk
 
-# ================================
-# ЗМІННІ ТА ТИПИ ДАНИХ
-# ================================
-# Колір теми (рядки)
+# колір
 BG_COLOR = "#1a1a2e"
 BTN_COLOR = "#16213e"
 BTN_HOVER = "#0f3460"
@@ -11,12 +8,12 @@ ACCENT_COLOR = "#e94560"
 TEXT_COLOR = "#ffffff"
 DISPLAY_BG = "#0f0f1a"
 
-# Шрифти (кортежі)
+# шрифт
 FONT_DISPLAY = ("Courier New", 32, "bold")
 FONT_BTN = ("Courier New", 18, "bold")
 FONT_SMALL = ("Courier New", 12)
 
-# Словник з операціями
+# операції
 OPERATIONS = {
     "+": "додавання",
     "-": "віднімання",
@@ -24,9 +21,6 @@ OPERATIONS = {
     "/": "ділення",
 }
 
-# ================================
-# КЛАС КАЛЬКУЛЯТОРА
-# ================================
 class Calculator:
     def __init__(self, root):
         self.root = root
@@ -42,11 +36,9 @@ class Calculator:
 
         self.build_ui()
 
-    # ================================
-    # ПОБУДОВА ІНТЕРФЕЙСУ
-    # ================================
+# інтерфейс
     def build_ui(self):
-        # Заголовок
+        # заголовок
         title_label = tk.Label(
             self.root,
             text="◈ CALC",
@@ -56,7 +48,7 @@ class Calculator:
         )
         title_label.grid(row=0, column=0, columnspan=4, pady=(15, 0))
 
-        # Поле виразу (що вводимо)
+        # поле виразу
         self.expr_label = tk.Label(
             self.root,
             text="",
@@ -71,7 +63,7 @@ class Calculator:
             padx=15, pady=(10, 0), ipady=5, sticky="ew"
         )
 
-        # Головний дисплей
+        # головний дисплей
         self.display = tk.Label(
             self.root,
             text="0",
@@ -86,10 +78,7 @@ class Calculator:
             row=2, column=0, columnspan=4,
             padx=15, pady=(0, 15), ipady=10, sticky="ew"
         )
-
-        # ================================
-        # СПИСОК КНОПОК (список кортежів)
-        # ================================
+        # кнопки
         buttons = [
             ("C", 3, 0, ACCENT_COLOR),
             ("⌫", 3, 1, BTN_HOVER),
@@ -117,9 +106,7 @@ class Calculator:
             ("=", 7, 3, ACCENT_COLOR),
         ]
 
-        # ================================
-        # ЦИКЛ — створюємо кнопки
-        # ================================
+        # цикл кнопок
         for text, row, col, color in buttons:
             btn = tk.Button(
                 self.root,
@@ -138,11 +125,11 @@ class Calculator:
             )
             btn.grid(row=row, column=col, padx=6, pady=6)
 
-            # Ефект при наведенні мишки
+            # ефект при наведенні мишки
             btn.bind("<Enter>", lambda e, b=btn, c=color: b.config(bg=BTN_HOVER if c == BTN_COLOR else c))
             btn.bind("<Leave>", lambda e, b=btn, c=color: b.config(bg=c))
 
-        # Підпис внизу
+        # підпис
         tk.Label(
             self.root,
             text="зроблено на Python + tkinter",
@@ -151,11 +138,8 @@ class Calculator:
             fg="#444444",
         ).grid(row=8, column=0, columnspan=4, pady=(0, 10))
 
-    # ================================
-    # ОБРОБКА НАТИСКАНЬ
-    # ================================
+    # натискання
     def on_click(self, text):
-        # Розгалуження — перевіряємо що натиснули
         if text == "C":
             self.clear()
 
@@ -174,13 +158,11 @@ class Calculator:
         else:
             self.add_to_input(text)
 
-    # ================================
-    # ФУНКЦІЇ КАЛЬКУЛЯТОРА
-    # ================================
+    # функції
     def add_to_input(self, char):
-        # Робота з рядками
+
         if char == "." and "." in self.current_input:
-            return  # Не дозволяємо два крапки
+            return 
 
         self.current_input = self.current_input + char
         self.expression = self.expression + char
@@ -194,7 +176,7 @@ class Calculator:
         self.expr_label.config(text="")
 
     def backspace(self):
-        # Зрізаємо останній символ (робота з рядками)
+
         if len(self.current_input) > 0:
             self.current_input = self.current_input[:-1]
             self.expression = self.expression[:-1]
@@ -226,14 +208,12 @@ class Calculator:
             return
 
         try:
-            # Обчислюємо вираз
+            # обчислення
             result = eval(self.expression)
 
-            # Зберігаємо в список (список)
             history_entry = self.expression + " = " + str(result)
             self.history.append(history_entry)
-
-            # Форматуємо результат
+            
             if isinstance(result, float) and result.is_integer():
                 result_str = str(int(result))
             else:
@@ -255,19 +235,15 @@ class Calculator:
             self.expression = ""
 
     def update_display(self, value):
-        # Обрізаємо якщо дуже довге число (робота з рядками)
+     
         if len(str(value)) > 12:
             value = str(value)[:12]
         self.display.config(text=value)
 
 
-# ================================
-# ЗАПУСК ПРОГРАМИ
-# ================================
 if __name__ == "__main__":
     root = tk.Tk()
 
-    # Розміщуємо вікно по центру екрану
     window_width = 400
     window_height = 600
     screen_width = root.winfo_screenwidth()
