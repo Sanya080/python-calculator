@@ -16,14 +16,14 @@ def press(btn):
         expr_label.config(text="")
 
     elif btn == "⌫":
-        expression = expression[:-1] 
+        expression = expression[:-1]
         display.config(text=expression or "0")
         expr_label.config(text=expression)
 
     elif btn == "=":
         try:
             result = eval(expression)
-            history.append(expression + " = " + str(result))  
+            history.append(expression + " = " + str(result))
             expr_label.config(text=expression + " =")
             if isinstance(result, float) and result.is_integer():
                 result = int(result)
@@ -37,7 +37,7 @@ def press(btn):
             expression = ""
 
     else:
-        expression = expression + btn  
+        expression = expression + btn
         display.config(text=expression)
         expr_label.config(text=expression)
 
@@ -59,7 +59,7 @@ buttons = [
     ["7", "8", "9", "*"],
     ["4", "5", "6", "-"],
     ["1", "2", "3", "+"],
-    ["0", ".", "="],
+    [" ", "0", ".", "="],
 ]
 
 for row in buttons:
@@ -74,7 +74,7 @@ for row in buttons:
         else:
             color = BTN
 
-        width = 8 if btn == "0" else 4
+        width = 4 if btn == "0" else 4
 
         tk.Button(
             frame,
